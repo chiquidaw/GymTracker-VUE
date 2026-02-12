@@ -29,6 +29,34 @@ const router = createRouter({
       meta: { requiresAuth: true },
     },
     {
+      path: '/routines/create',
+      name: 'routine-create',
+      component: () => import('@/views/RoutineCreateView.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/routines/:id',
+      component: () => import('@/views/RoutineDetailView.vue'),
+      meta: { requiresAuth: true },
+      children: [
+        {
+          path: '',
+          name: 'routine-detail',
+          redirect: to => ({ name: 'routine-exercises', params: to.params })
+        },
+        {
+          path: 'exercises',
+          name: 'routine-exercises',
+          component: () => import('@/views/RoutineExercisesView.vue'),
+        },
+        {
+          path: 'player',
+          name: 'routine-player',
+          component: () => import('@/views/RoutinePlayerView.vue'),
+        }
+      ]
+    },
+    {
       path: '/categories',
       name: 'categories',
       component: () => import('@/views/CategoryView.vue'),
